@@ -22,7 +22,7 @@ if (!cloudeName || !cloudinaryApiKey || !cloudinaryApiSecret) {
 }
 
 export const jwtSecret = process.env.JWT_SECRET;
-export const jwtExpire = process.env.JWT_EXPIRE || "7h";
+export const jwtExpire = process.env.JWT_EXPIRES || "7h";
 
 if(!jwtSecret || !jwtExpire) {
   throw new Error("JWT configuration is missing from the .env file");

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { jwtExpires, jwtSecret } from "../config/config.js";
+import { jwtExpire, jwtSecret } from "../config/config.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -60,11 +60,10 @@ const userSchema = new mongoose.Schema(
 );
 
 // hash password
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  next();
 });
 
 // compare password
@@ -77,7 +76,7 @@ userSchema.methods.generateJWT = function () {
   return jwt.sign(
     { id: this._id, email: this.email, role: this.role },
     jwtSecret,
-    { expiresIn: jwtExpires }
+    { expiresIn: jwtExpire }
   );
 };
 
