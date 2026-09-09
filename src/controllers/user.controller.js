@@ -28,7 +28,7 @@ export const updateUser = async (req, res) => {
     }
 
     const updatedUser = await User.findByIdAndUpdate(userId, updates, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     }).select("-password -resetOTP -resetOTPExpire");
 
@@ -77,7 +77,7 @@ export const updateUserImage = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { profileImage: uploadResult.secure_url },
-      { new: true }
+      { returnDocument: "after" }
     ).select("-password -resetOTP -resetOTPExpire");
 
     if (!updatedUser) {
